@@ -18,14 +18,28 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+ 
+}.background{
+  background-image: url(../images/bg-main-desktop.png);
+  background-repeat: no-repeat;
+  
+}.input{
+  border: solid 1px;
+  padding: 1rem;
+}.p{
+  font-weight: bold;
+  font-size: small;
+  letter-spacing: .1em;
+  
+}.button{
+  background: hsl(278, 68%, 11%);
+  
 }
-
+@media only screen and(min-width: 1485px){
+  .background{
+    background-size: 90% 100%;
+  }
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;

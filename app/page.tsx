@@ -1,113 +1,153 @@
+"use client";
 import Image from "next/image";
-
+import BackCard from "@/images/bg-card-back.png";
+import FrontCard from "@/images/bg-card-front.png";
+import avatar from "@/images/card-logo.svg";
+import successIcon from "@/images/icon-complete.svg";
+import { useState } from "react";
 export default function Home() {
+  const [validation, setValidation] = useState(false);
+  const textSuccess = "We've added your card detals";
+  const [creditDetails, setCreditDetails] = useState({
+    Name: "",
+    Number: "",
+    month: "",
+    year: "",
+    threeDigits: "",
+  });
+  const ValidationCreditDetails = () => {
+    console.log(creditDetails);
+    setValidation(true);
+  };
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="grid md:grid-cols-2 md:grid-rows-1 ">
+      <div className="background relative h-[240px] md:w-full md:h-[100vh] md:grid md:grid-cols-2 md:grid-rows-12  ">
+        {/* silver card */}
+        <div className="relative md:col-start-1 md:row-start-7 md:row-end-10">
+          <div className="absolute top-[100px] left-[75%] bg-transparent text-[10px] z-10  md:left-[150%] md:top-[123px] ">
+            {creditDetails.threeDigits ? creditDetails.threeDigits : <p>000</p>}
+          </div>
+          <Image
+            src={BackCard}
+            alt="Back Card"
+            className="w-[280px] md:w-[450px] inline-block z-0 absolute top-8 left-20 md:left-[67%] md:top-4 rounded-lg shadow-2xl "
+          />
+        </div>
+        {/* red card */}
+        <div className="w-[290px] absolute top-[50%] left-5  md:w-[420px] md:col-start-12 md:top-[20%] md:left-[24%] shadow-2xl ">
+          <div className=" absolute md:w-[400px] md:h-48  ">
+            <Image src={avatar} alt="avatar" className="p-4 " />
+            <div className=" md:mt-16 h-30">
+              <div className="flex justify-center text-[22px] mt-5 md:text-[33px]  ">
+                {creditDetails.Number ? (
+                  creditDetails.Number
+                ) : (
+                  <p>0000 0000 0000 0000</p>
+                )}
+              </div>
+              <div className=" w-72  flex justify-between md:w-full md:h-11 md:items-end p-3 text-[10px] font-light ">
+                <div className="ml-3">
+                  {creditDetails.Name ? (
+                    creditDetails.Name
+                  ) : (
+                    <p>JANE APPLESEED</p>
+                  )}
+                </div>
+                <div className="mr-2 flex">
+                  {creditDetails.month ? creditDetails.month : <p>00</p>}
+                  <p>/</p>
+                  {creditDetails.year ? creditDetails.year : <p>00</p>}
+                </div>
+              </div>
+            </div>
+          </div>
+          <Image src={FrontCard} alt="Front Card" />
         </div>
       </div>
+      {/* input field */}
+      <div className=" mt-24 h-[55vh] grid grid-cols-12 grid-rows-5 text-black  md:col-start-2 md:row-start-1 md:mt-56 md:w-[550px]">
+        {validation ? (
+          <>
+            <div className="flex justify-center items-center  col-start-5 col-span-4">
+              <Image src={successIcon} alt="suuccess Icon" />
+            </div>
+            <h1 className="row-start-2 col-start-4 col-span-6 flex items-end justify-center  text-3xl">
+              THANK YOU!
+            </h1>
+            <p className="row-start-3 col-start-2 col-span-10 flex items-center justify-center text-lg text-slate-500 ">
+              {textSuccess}
+            </p>
+          </>
+        ) : (
+          <>
+            <div className="col-start-2  col-span-10 row-start-1">
+              <p className="p p-1  flex items-end ">CARDHOLDER NAME</p>
+              <input
+                className="input w-full h-12 rounded-md "
+                placeholder="e.g Jane Appleseed"
+                onChange={(e) => {
+                  setCreditDetails({ ...creditDetails, Name: e.target.value });
+                }}
+              />
+            </div>
+            <div className="col-start-2  col-span-10 row-start-2">
+              <p className="p p-1 flex items-end ">CARD NUMBER</p>
+              <input
+                className="input w-full h-12 rounded-md "
+                placeholder="e.g 1234 5678 9123 0000"
+                onChange={(e) => {
+                  setCreditDetails({
+                    ...creditDetails,
+                    Number: e.target.value,
+                  });
+                }}
+              />
+            </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+            <div className=" col-start-2 col-span-12 row-start-3 row-end-5 grid grid-cols-4 grid-rows-4 gap-2 mt-3    ">
+              <p className="p col-start-1 col-span-3 row-start-1 my-4 ">
+                EXP. DATE (MM/YY){" "}
+              </p>
+              <input
+                className="input col-start-1 col-span-1 row-start-2  h-10 rounded-md placeholder:p-2"
+                placeholder="MM"
+                onChange={(e) => {
+                  setCreditDetails({ ...creditDetails, month: e.target.value });
+                }}
+              />
+              <input
+                className="input  col-start-2 col-span-1 row-start-2 h-10 rounded-md placeholder:p-2"
+                placeholder="YY"
+                onChange={(e) => {
+                  setCreditDetails({ ...creditDetails, year: e.target.value });
+                }}
+              />
+              <p className="p col-start-3  col-span-2 row-start-1 my-4  ">
+                CVC
+              </p>
+              <input
+                className=" input  col-start-3 col-span-2 row-start-2 h-10 rounded-md w-[80%] placeholder:p-2"
+                placeholder="e.g. 123"
+                onChange={(e) => {
+                  setCreditDetails({
+                    ...creditDetails,
+                    threeDigits: e.target.value,
+                  });
+                }}
+              />
+            </div>
+          </>
+        )}
+        {/* button confirm */}
+        <div className="col-start-2 col-end-12 row-start-4 ">
+          <button
+            onClick={ValidationCreditDetails}
+            className="button w-full h-12 rounded-md text-white mt-11 "
+          >
+            Confirm
+          </button>
+        </div>
       </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
 }
